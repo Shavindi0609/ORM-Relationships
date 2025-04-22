@@ -11,6 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelloApplication extends Application {
     @Override
@@ -27,19 +29,32 @@ public class HelloApplication extends Application {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
-        Laptop laptop = new Laptop();
-        laptop.setLid(1);
-        laptop.setName("Laptop 1");
+        Laptop laptop1 = new Laptop();
+        laptop1.setLid(1);
+        laptop1.setName("Laptop 1");
 
-        Student student = new Student();
-        student.setId(1);
-        student.setName("Jack2");
-        student.setAddress("Colombo");
-        student.setLaptop(laptop);
-        session.save(student);
 
-        session.persist(laptop);
-        session.persist(student);
+
+        Laptop laptop2 = new Laptop();
+        laptop2.setLid(2);
+        laptop2.setName("Laptop 2");
+
+        List<Laptop>laptops = new ArrayList<>();
+        laptops.add(laptop1);
+        laptops.add(laptop2);
+
+        Student student1 = new Student();
+        student1.setId(1);
+        student1.setName("John Doe");
+        student1.setAddress("Panadura");
+        student1.setLaptop(laptops);
+
+        laptop1.setStudent(student1);
+        laptop2.setStudent(student1);
+
+        session.save(laptop1);
+        session.save(laptop2);
+        session.save(student1);
 
 //        Student student = new Student();
 //        student.setId(1);
